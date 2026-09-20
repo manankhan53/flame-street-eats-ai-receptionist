@@ -8,6 +8,8 @@ An AI voice receptionist that answers phone orders for a fast-food restaurant en
 
 [Watch the demo video](https://youtu.be/GO_qvOrM5jM)) — a full call, from order to database record to email notification, recorded live.
 
+**Live showcase page:** [View the landing page]https://claude.ai/artifact/Ue8m6uFsLo8edmPwkXfFc8
+
 ## The Problem
 
 Restaurants lose orders and revenue when phone lines are busy during rush hours, and manual order-taking introduces delays and mistakes when staff relay orders to the kitchen by hand. This system answers every call instantly, takes the order accurately, and gets it into the kitchen queue with zero manual re-entry.
