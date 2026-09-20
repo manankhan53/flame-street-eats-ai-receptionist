@@ -8,7 +8,7 @@ An AI voice receptionist that answers phone orders for a fast-food restaurant en
 
 [Watch the demo video](https://youtu.be/GO_qvOrM5jM)) — a full call, from order to database record to email notification, recorded live.
 
-**Live showcase page:** [View the landing page]https://claude.ai/artifact/Ue8m6uFsLo8edmPwkXfFc8
+**Live showcase page:** [View the landing page] https://manankhan53.github.io/flame-street-eats-ai-receptionist/
 
 ## The Problem
 
