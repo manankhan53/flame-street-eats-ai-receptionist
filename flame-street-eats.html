@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flame Street Eats — AI Order Line</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1B1815;
+    --bg-raised: #241F1B;
+    --line: #3A332C;
+    --ink: #F3ECE1;
+    --ink-muted: #ABA095;
+    --flame: #FF5A1F;
+    --flame-dim: #C9481A;
+    --gold: #FFC145;
+    --radius: 6px;
+    --maxw: 1060px;
+  }
+  :root:not([data-theme="light"]) { --bg:#1B1815; --bg-raised:#241F1B; --line:#3A332C; --ink:#F3ECE1; --ink-muted:#ABA095; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg:#1B1815; --bg-raised:#241F1B; --line:#3A332C; --ink:#F3ECE1; --ink-muted:#ABA095; }
+  }
+  :root[data-theme="dark"] { --bg:#1B1815; --bg-raised:#241F1B; --line:#3A332C; --ink:#F3ECE1; --ink-muted:#ABA095; }
+
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.55;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    -webkit-font-smoothing: antialiased;
+  }
+  img, iframe { max-width: 100%; }
+  a { color: inherit; }
+
+  .display {
+    font-family: 'Archivo Black', 'Work Sans', sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+  }
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Header ---------- */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    padding-top: env(safe-area-inset-top, 0px);
+    background: rgba(27,24,21,0.88);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 24px;
+    max-width: var(--maxw); margin: 0 auto;
+  }
+  .wordmark {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 17px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .wordmark .dot { color: var(--flame); }
+  .nav-link {
+    text-decoration: none;
+    font-size: 14px;
+    color: var(--ink-muted);
+    border: 1px solid var(--line);
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    transition: border-color .15s ease, color .15s ease;
+  }
+  .nav-link:hover { border-color: var(--flame); color: var(--ink); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 84px 0 64px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  h1 {
+    font-size: clamp(34px, 5vw, 56px);
+    margin: 0 0 22px;
+    max-width: 13ch;
+  }
+  h1 span { color: var(--flame); }
+  .lede {
+    font-size: 18px;
+    color: var(--ink-muted);
+    max-width: 46ch;
+    margin: 0 0 32px;
+  }
+  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    text-decoration: none;
+    padding: 13px 22px;
+    border-radius: var(--radius);
+    font-size: 15px;
+    font-weight: 600;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .btn-primary { background: var(--flame); color: #1B1815; }
+  .btn-primary:hover { background: #ff6b37; transform: translateY(-1px); }
+  .btn-ghost { border: 1px solid var(--line); color: var(--ink); }
+  .btn-ghost:hover { border-color: var(--ink-muted); }
+
+  /* order ticket illustration */
+  .ticket {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px 22px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--ink-muted);
+    position: relative;
+  }
+  .ticket::before {
+    content: "";
+    position: absolute; top: -1px; left: 0; right: 0; height: 3px;
+    background: repeating-linear-gradient(90deg, var(--flame) 0 10px, transparent 10px 20px);
+  }
+  .ticket-head {
+    display: flex; justify-content: space-between;
+    color: var(--ink);
+    font-size: 12px;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .ticket-row { display: flex; justify-content: space-between; padding: 5px 0; }
+  .ticket-row b { color: var(--ink); font-weight: 500; }
+  .ticket-total {
+    display: flex; justify-content: space-between;
+    margin-top: 12px; padding-top: 12px;
+    border-top: 1px dashed var(--line);
+    color: var(--gold);
+    font-size: 13px;
+  }
+  .ticket-status {
+    margin-top: 14px;
+    display: inline-block;
+    font-size: 11px;
+    color: var(--flame);
+    border: 1px solid var(--flame-dim);
+    padding: 4px 10px;
+    border-radius: 3px;
+  }
+
+  /* ---------- Sections generic ---------- */
+  section { padding: 76px 0; border-bottom: 1px solid var(--line); }
+  .section-head { max-width: 56ch; margin-bottom: 40px; }
+  h2 {
+    font-size: clamp(26px, 3.4vw, 34px);
+    margin: 0 0 14px;
+  }
+  .section-head p { color: var(--ink-muted); font-size: 16px; margin: 0; }
+
+  /* ---------- Problem ---------- */
+  .problem-body { color: var(--ink-muted); font-size: 17px; max-width: 62ch; }
+  .problem-body strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- Demo / video ---------- */
+  .video-frame {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #000;
+    aspect-ratio: 16/9;
+  }
+  .video-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .video-link {
+    text-decoration: none;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 18px;
+    background: radial-gradient(circle at 50% 40%, #2A241F 0%, #1B1815 70%);
+    transition: background .15s ease;
+  }
+  .video-link:hover { background: radial-gradient(circle at 50% 40%, #322A23 0%, #1B1815 70%); }
+  .play-btn {
+    width: 68px; height: 68px;
+    border-radius: 50%;
+    background: var(--flame);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .15s ease;
+  }
+  .video-link:hover .play-btn { transform: scale(1.06); }
+  .video-link-label {
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  /* ---------- How it works ---------- */
+  .steps { border-top: 1px solid var(--line); margin-top: 8px; }
+  .step {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 20px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--flame);
+    padding-top: 3px;
+  }
+  .step h3 {
+    font-size: 18px;
+    margin: 0 0 6px;
+    font-weight: 600;
+  }
+  .step p { margin: 0; color: var(--ink-muted); font-size: 15px; max-width: 60ch; }
+
+  /* ---------- Stack ---------- */
+  .stack-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .stack-item { background: var(--bg-raised); padding: 26px 22px; }
+  .stack-item .name { font-family: 'Archivo Black', sans-serif; font-size: 16px; margin-bottom: 6px; }
+  .stack-item .role { color: var(--ink-muted); font-size: 14px; }
+
+  /* ---------- Testing ---------- */
+  .checks { display: grid; gap: 10px; max-width: 62ch; }
+  .check {
+    display: flex; gap: 12px; align-items: flex-start;
+    color: var(--ink-muted); font-size: 15px;
+  }
+  .check svg { flex: none; margin-top: 3px; color: var(--flame); }
+
+  /* ---------- Footer ---------- */
+  footer { padding: 56px 0 calc(56px + env(safe-area-inset-bottom, 0px)); border-bottom: none; }
+  .footer-grid {
+    display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;
+  }
+  .footer-note { color: var(--ink-muted); font-size: 14px; max-width: 44ch; }
+
+  @media (max-width: 760px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .stack-list { grid-template-columns: 1fr; }
+    .step { grid-template-columns: 40px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="wordmark">FLAME STREET EATS <span class="dot">●</span> <span class="mono" style="font-size:11px; color:var(--ink-muted); font-weight:400;">AI ORDER LINE</span></div>
+    <a class="nav-link" href="https://github.com/manankhan53/flame-street-eats-ai-receptionist" target="_blank" rel="noopener">View the code</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1 class="display">Never miss<br>a phone <span>order</span><br>again.</h1>
+      <p class="lede">An AI voice receptionist that answers every call, takes the full order, and gets it to the kitchen — no one at the counter required.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#demo">Watch it take a call</a>
+        <a class="btn btn-ghost" href="#how">How it works</a>
+      </div>
+    </div>
+    <div class="ticket">
+      <div class="ticket-head">
+        <span>ORDER #0412</span>
+        <span>PICKUP</span>
+      </div>
+      <div class="ticket-row"><span>1x</span><b>Zinger Burger — no mayo</b></div>
+      <div class="ticket-row"><span>1x</span><b>Chicken Loaded Fries</b></div>
+      <div class="ticket-row"><span>1x</span><b>Soft Drink — lemon-lime</b></div>
+      <div class="ticket-total"><span>Taken by</span><span>AI receptionist</span></div>
+      <span class="ticket-status">Sent to kitchen ✓</span>
+    </div>
+  </div>
+</section>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Every missed call is a missed order.</h2>
+    </div>
+    <p class="problem-body">Rush hours mean busy phone lines. Manual order-taking means mishears, dropped details, and orders relayed by hand to a kitchen that's already slammed. <strong>Every one of those moments is a customer who hangs up and orders somewhere else.</strong> This system answers instantly, gets the order right, and puts it in front of the kitchen with nothing lost in translation.</p>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Watch it take a real order</h2>
+      <p>A live, unscripted call — from greeting to confirmed order to a notified kitchen.</p>
+    </div>
+    <a class="video-frame video-link" href="https://youtu.be/GO_qvOrM5jM" target="_blank" rel="noopener">
+      <div class="play-btn">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M9 6.5L20 13L9 19.5V6.5Z" fill="#1B1815"/></svg>
+      </div>
+      <span class="video-link-label">Watch the full call on YouTube</span>
+    </a>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>How it works</h2>
+      <p>One phone call, four automated steps, zero manual re-entry.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num mono">01</div>
+        <div><h3>Call comes in</h3><p>The AI answers immediately, every time — no hold music, no busy signal.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num mono">02</div>
+        <div><h3>Order gets built</h3><p>Menu questions, customizations, quantities, delivery or pickup — all handled in a natural conversation.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num mono">03</div>
+        <div><h3>Order gets confirmed</h3><p>The full order is read back before anything is finalized, so nothing gets lost.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num mono">04</div>
+        <div><h3>Kitchen gets notified</h3><p>The order lands in the queue and staff get an email the moment it's placed.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Built with</h2>
+    </div>
+    <div class="stack-list">
+      <div class="stack-item"><div class="name">Vapi</div><div class="role">Voice AI — the live phone conversation</div></div>
+      <div class="stack-item"><div class="name">n8n</div><div class="role">Automation — routes and transforms the order</div></div>
+      <div class="stack-item"><div class="name">Airtable</div><div class="role">The kitchen's order queue</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="testing">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Tested against the messy calls, not just the easy ones</h2>
+    </div>
+    <div class="checks">
+      <div class="check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 4L6 12L3 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Full multi-item orders, both delivery and pickup</div>
+      <div class="check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 4L6 12L3 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Off-menu requests — correctly declined, nothing invented</div>
+      <div class="check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 4L6 12L3 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Mid-call corrections — final order reflects the change</div>
+      <div class="check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 4L6 12L3 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Incomplete addresses — asks for clarification instead of guessing</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-grid">
+    <p class="footer-note">This is a portfolio project built to demonstrate a working voice-AI-to-automation pipeline. It isn't a live ordering line.</p>
+    <a class="btn btn-primary" href="https://github.com/manankhan53/flame-street-eats-ai-receptionist" target="_blank" rel="noopener">View the full build on GitHub</a>
+  </div>
+</footer>
+
+</body>
+</html>
