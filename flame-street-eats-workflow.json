@@ -1,0 +1,296 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "122c3216-c104-4ba4-b17e-3ea9a2e3db20",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d493d0ba-22d6-43f5-8e16-dd92a6b15338",
+      "name": "Webhook",
+      "webhookId": "122c3216-c104-4ba4-b17e-3ea9a2e3db20"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "apphSqA7hIlXrT5Pe",
+          "mode": "list",
+          "cachedResultName": "Flame Street Eats Orders",
+          "cachedResultUrl": "https://airtable.com/apphSqA7hIlXrT5Pe"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblLCkR9sADn6uNqI",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/apphSqA7hIlXrT5Pe/tblLCkR9sADn6uNqI"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "Customer Name": "={{ $json.body.customer_name }}",
+            "Order Type": "={{ $json.body.order_type }}",
+            "Order Items": "={{ $json.body.order_items }}",
+            "Phone Number": "={{ $json.body.phone_number }}",
+            "Delivery Address": "={{ $json.body.delivery_address }}",
+            "Special Instructions": "={{ $json.body.special_instructions }}",
+            "Status": "New"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Order Type",
+              "displayName": "Order Type",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Order Items",
+              "displayName": "Order Items",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "New",
+                  "value": "New"
+                },
+                {
+                  "name": "Confirm",
+                  "value": "Confirm"
+                },
+                {
+                  "name": "Ready",
+                  "value": "Ready"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Delivery Address",
+              "displayName": "Delivery Address",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Special Instructions",
+              "displayName": "Special Instructions",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Phone Number",
+              "displayName": "Phone Number",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "9285ede8-6338-48db-9721-21b76ad560dc",
+      "name": "Create a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "oi0u3KvkCuF6d5hI",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "79d241f4-4038-404b-828c-afa6ae0494d4",
+              "name": "Customer Name",
+              "value": "={{ $json.body.customer_name }}",
+              "type": "string"
+            },
+            {
+              "id": "6e53521f-5bdc-435b-b4b4-a545e9480699",
+              "name": "Order Type",
+              "value": "={{ $json.body.order_type }}",
+              "type": "string"
+            },
+            {
+              "id": "cf8cea70-9ce5-4c3a-a9b7-7042edbcb103",
+              "name": "Order Items",
+              "value": "={{ $json.body.order_items }}",
+              "type": "string"
+            },
+            {
+              "id": "50e18b12-bb34-4c2b-96a1-8f9ee64f6c8b",
+              "name": "Phone Number",
+              "value": "={{ $json.body.phone_number }}",
+              "type": "string"
+            },
+            {
+              "id": "0eb47830-a806-4227-bc55-f793ffba8f61",
+              "name": "Delivery Address",
+              "value": "={{ $json.body.delivery_address }}",
+              "type": "string"
+            },
+            {
+              "id": "1713ec91-203f-4342-a911-1ba57d38027b",
+              "name": "Special Instructions",
+              "value": "={{ $json.body.special_instructions }}",
+              "type": "string"
+            },
+            {
+              "id": "efbfa162-195f-4d10-902b-6e565de2c85d",
+              "name": "Status",
+              "value": "New",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "9b0ce7bc-a51e-47c6-a342-7d9b0b6d6067",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "fromEmail": "khanexamedia@gmail.com",
+        "toEmail": "mananniazi063@gmail.com",
+        "subject": "New Order — Flame Street Eats",
+        "emailFormat": "text",
+        "text": "=New order received for Flame Street Eats!\n\nOrder Type: {{ $('Edit Fields').item.json['Order Type'] }}\nItems: {{ $('Edit Fields').item.json['Order Items'] }}\nPhone Number: {{ $('Edit Fields').item.json['Phone Number'] }}\nDelivery Address: {{ $('Edit Fields').item.json['Delivery Address'] }}\nSpecial Instructions: {{ $('Edit Fields').item.json['Special Instructions'] }}\nStatus: {{ $('Edit Fields').item.json['Status'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        672,
+        0
+      ],
+      "id": "0e41296e-31a1-4912-b8c9-bca5033ff049",
+      "name": "Send an Email",
+      "webhookId": "bf692552-cf51-406d-8b5c-3086d40ccfc3",
+      "credentials": {
+        "smtp": {
+          "id": "FEIclXPoQrzSizSo",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Create a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a record": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "8e068f42-0110-4c67-96d7-206adbeb97f7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "bddcaf91f0c4bdb3446d1ed9622c52f1429b66f3c1f2ea4eeae9859d35d28444"
+  },
+  "nodeGroups": [],
+  "id": "lSC1JdNje9attjUg",
+  "tags": []
+}
