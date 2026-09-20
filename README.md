@@ -6,7 +6,7 @@ An AI voice receptionist that answers phone orders for a fast-food restaurant en
 
 ## Demo
 
-[Watch the demo video](LINK_TO_YOUR_VIDEO_HERE) — a full call, from order to database record to email notification, recorded live.
+[Watch the demo video](https://youtu.be/GO_qvOrM5jM)) — a full call, from order to database record to email notification, recorded live.
 
 ## The Problem
 
